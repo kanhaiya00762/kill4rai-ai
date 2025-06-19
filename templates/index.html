@@ -1,82 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
   <title>kill4rai-ai</title>
   <style>
     body {
-      background-color: #0d1117;
-      color: #c9d1d9;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-top: 80px;
-      margin: 0;
-    }
-    h1 {
-      color: #58a6ff;
-    }
-    .box {
-      background: #161b22;
-      border: 1px solid #30363d;
-      padding: 20px;
-      border-radius: 12px;
-      width: 90%;
-      max-width: 600px;
+      background: #101010;
+      color: #00ffcc;
+      font-family: monospace;
       text-align: center;
+      padding-top: 60px;
     }
     input, button {
-      padding: 10px;
-      font-size: 1em;
-      width: 80%;
-      margin-top: 10px;
-      border-radius: 6px;
+      padding: 12px;
+      font-size: 16px;
+      width: 300px;
+      margin: 10px;
+      border-radius: 5px;
       border: none;
-      outline: none;
     }
     button {
-      background: #238636;
-      color: white;
-      cursor: pointer;
-      width: 50%;
+      background: #00ffcc;
+      color: black;
+      font-weight: bold;
     }
-    #response {
-      margin-top: 20px;
-      background-color: #0d1117;
-      padding: 10px;
-      border-radius: 6px;
+    #reply {
       white-space: pre-wrap;
-      word-wrap: break-word;
+      margin-top: 20px;
+      font-size: 17px;
+      color: #fff;
     }
   </style>
 </head>
 <body>
-  <div class="box">
-    <h1>🤖 kill4rai-ai</h1>
-    <p>Your custom AI assistant powered by OpenRouter is online!</p>
-    <input id="question" type="text" placeholder="Ask something..." />
-    <button onclick="ask()">Ask</button>
-    <div id="response">AI response will appear here...</div>
-  </div>
+  <h1>💀 kill4rai-ai 💀</h1>
+  <input type="text" id="text" placeholder="Ask me anything..." />
+  <button onclick="ask()">Ask</button>
+  <div id="reply"></div>
 
   <script>
     async function ask() {
-      const q = document.getElementById('question').value;
-      const resBox = document.getElementById('response');
-      resBox.innerText = "Thinking... 🤔";
-
-      try {
-        const res = await fetch('/voice', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({text: q})
-        });
-        const data = await res.json();
-        resBox.innerText = data.reply;
-      } catch (e) {
-        resBox.innerText = "⚠️ Error: " + e.message;
-      }
+      const text = document.getElementById("text").value;
+      const res = await fetch("/ask", {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({text})
+      });
+      const data = await res.json();
+      document.getElementById("reply").innerText = data.reply;
     }
   </script>
 </body>
