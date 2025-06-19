@@ -48,4 +48,5 @@ def voice_input():
     return jsonify({"reply": "🎤 Voice input not yet implemented in Flask. Use browser-based JS for now."})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=10000)
+    
