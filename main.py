@@ -4,9 +4,9 @@ import os
 
 app = Flask(__name__)
 
-# ✅ Get API key from Render Environment Variable
-API_KEY = os.getenv("API_KEY")
-MODEL = "mistral/mistral-7b-instruct"  # You can change this to another supported model
+# === Load API key from environment ===
+API_KEY = os.getenv("API_KEY")  # Set this in Render's Environment Variables
+MODEL = "openai/gpt-3.5-turbo"  # Use a valid model from https://openrouter.ai/docs#models
 
 @app.route("/")
 def index():
@@ -19,18 +19,25 @@ def voice_input():
 
     headers = {
         "Authorization": f"Bearer {API_KEY}",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "HTTP-Referer": "https://kill4rai-ai.onrender.com",
+        "X-Title": "Kill4R-AI"
     }
 
     payload = {
         "model": MODEL,
         "messages": [
+            {"role": "system", "content": "You are a helpful assistant."},
             {"role": "user", "content": user_text}
         ]
     }
 
     try:
-        response = requests.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, json=payload)
+        response = requests.post(
+            "https://openrouter.ai/api/v1/chat/completions",
+            headers=headers,
+            json=payload
+        )
         response.raise_for_status()
         result = response.json()
         reply = result["choices"][0]["message"]["content"]
