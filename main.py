@@ -1,10 +1,11 @@
 from flask import Flask, request, jsonify, render_template
 import requests
+import os  # Import os to read environment variable
 
 app = Flask(__name__)
 
-# === SET YOUR OPENROUTER API KEY ===
-API_KEY = "sk-or-2fd27dc4-1630-4b17-bd21-1c6896d377a9"  # ← your actual key
+# === Read API Key from Render Environment Variables ===
+API_KEY = os.environ.get("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")
 MODEL = "mistral/mistral-7b-instruct"
 
 @app.route("/")
@@ -18,7 +19,7 @@ def voice_input():
 
     headers = {
         "Authorization": f"Bearer {API_KEY}",
-        "HTTP-Referer": "https://kill4rai-ai.onrender.com",
+        "HTTP-Referer": "https://kill4rai-ai.onrender.com",  # Change this to match your actual URL
         "Content-Type": "application/json"
     }
 
