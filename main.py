@@ -4,9 +4,9 @@ import os
 
 app = Flask(__name__)
 
-# ✅ READ API KEY FROM RENDER ENVIRONMENT VARIABLES
-API_KEY = os.environ.get("API_KEY")
-MODEL = "mistral/mistral-7b-instruct"
+# ✅ Get API key from Render Environment Variable
+API_KEY = os.getenv("API_KEY")
+MODEL = "mistral/mistral-7b-instruct"  # You can change this to another supported model
 
 @app.route("/")
 def index():
@@ -19,14 +19,12 @@ def voice_input():
 
     headers = {
         "Authorization": f"Bearer {API_KEY}",
-        "HTTP-Referer": "https://kill4rai-ai.onrender.com",  # Must match your Render domain
         "Content-Type": "application/json"
     }
 
     payload = {
         "model": MODEL,
         "messages": [
-            {"role": "system", "content": "You are a helpful assistant."},
             {"role": "user", "content": user_text}
         ]
     }
