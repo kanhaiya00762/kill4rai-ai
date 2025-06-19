@@ -11,44 +11,73 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      height: 100vh;
+      padding-top: 80px;
       margin: 0;
     }
     h1 {
       color: #58a6ff;
-      font-size: 2em;
-    }
-    p {
-      color: #8b949e;
-      font-size: 1.1em;
     }
     .box {
-      border: 1px solid #30363d;
       background: #161b22;
+      border: 1px solid #30363d;
       padding: 20px;
       border-radius: 12px;
+      width: 90%;
+      max-width: 600px;
       text-align: center;
-      max-width: 500px;
     }
-    a {
-      color: #58a6ff;
-      text-decoration: none;
+    input, button {
+      padding: 10px;
+      font-size: 1em;
+      width: 80%;
+      margin-top: 10px;
+      border-radius: 6px;
+      border: none;
+      outline: none;
     }
-    a:hover {
-      text-decoration: underline;
+    button {
+      background: #238636;
+      color: white;
+      cursor: pointer;
+      width: 50%;
     }
-    .emoji {
-      font-size: 2em;
+    #response {
+      margin-top: 20px;
+      background-color: #0d1117;
+      padding: 10px;
+      border-radius: 6px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
     }
   </style>
 </head>
 <body>
   <div class="box">
-    <div class="emoji">🤖</div>
-    <h1>kill4rai-ai</h1>
+    <h1>🤖 kill4rai-ai</h1>
     <p>Your custom AI assistant powered by OpenRouter is online!</p>
-    <p><a href="https://kill4rai-ai.onrender.com">Visit Endpoint</a></p>
+    <input id="question" type="text" placeholder="Ask something..." />
+    <button onclick="ask()">Ask</button>
+    <div id="response">AI response will appear here...</div>
   </div>
+
+  <script>
+    async function ask() {
+      const q = document.getElementById('question').value;
+      const resBox = document.getElementById('response');
+      resBox.innerText = "Thinking... 🤔";
+
+      try {
+        const res = await fetch('/voice', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({text: q})
+        });
+        const data = await res.json();
+        resBox.innerText = data.reply;
+      } catch (e) {
+        resBox.innerText = "⚠️ Error: " + e.message;
+      }
+    }
+  </script>
 </body>
 </html>
